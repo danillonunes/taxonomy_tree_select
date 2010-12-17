@@ -3,18 +3,18 @@
 
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function taxonomy_tree_select_theme($existing, $type, $theme, $path) {
   return array(
     'taxonomy_tree_select_nested_lists' => array(
-      'arguments' => array('element' => NULL, 'tree' => NULL, 'parent' => NULL, 'tree_temp' => NULL),
-    )
+      'variables' => array('element' => NULL, 'tree' => NULL, 'parent' => NULL, 'tree_temp' => NULL),
+    ),
   );
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implements hook_form_alter().
  */
 function taxonomy_tree_select_form_taxonomy_form_vocabulary_alter(&$form, &$form_state) {
   // Work on vocabulary settings form
@@ -24,12 +24,12 @@ function taxonomy_tree_select_form_taxonomy_form_vocabulary_alter(&$form, &$form
     '#title' => t('Tree select'),
     '#description' => t('On node form, shows a selectable tree with items of this vocabulary. (Incompatible with "Tags" option)'),
     '#weight' => $form['settings']['tags']['#weight'] + 1,
-    '#default_value' => variable_get('vocabulary_' . $form['vid']['#value'] . '_tree_select', 0)
+    '#default_value' => variable_get('vocabulary_' . $form['vid']['#value'] . '_tree_select', 0),
   );
 }
 
 /**
- * Implementation of hook_taxonomy().
+ * Implements hook_taxonomy().
  */
 function taxonomy_tree_select_taxonomy($op, $type, $form_values) {
   if ($form_values['form_id'] == 'taxonomy_form_vocabulary') {
@@ -53,7 +53,7 @@ function taxonomy_tree_select_taxonomy($op, $type, $form_values) {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implements hook_form_alter().
  */
 function taxonomy_tree_select_form_alter(&$form, &$form_state, $form_id) {
   // Work on node form...
@@ -98,9 +98,13 @@ function taxonomy_tree_select_form_alter(&$form, &$form_state, $form_id) {
  * @return
  *   Rendered item list with the terms of the element
  */
-function theme_taxonomy_tree_select_nested_lists($element, $tree = array(), $parent = 0, $tree_temp = array()) {
+function theme_taxonomy_tree_select_nested_lists($variables) {
+  $element = $variables['element'];
+  $tree = $variables['tree'];
+  $parent = $variables['parent'];
+  $tree_temp = $variables['tree_temp'];
   global $theme;
-  
+
   $vid = $element['#parents'][1];
 
   if (!$tree) {
@@ -115,7 +119,7 @@ function theme_taxonomy_tree_select_nested_lists($element, $tree = array(), $par
       $element[$term->tid]['#title'] = $term->name;
 
       $terms[$term->tid] = array(
-        'data' => drupal_render($element[$term->tid])
+        'data' => drupal_render_children($element[$term->tid]),
       );
     }
     else {
@@ -150,7 +154,7 @@ function theme_taxonomy_tree_select_nested_lists($element, $tree = array(), $par
       $tree_classes[] = 'taxonomy-tree-hidden-input';
     }
 
-    return theme('item_list', $terms, NULL, 'ul', array('class' => implode(' ', $tree_classes)));
+    return theme('item_list', array('items' => $terms, 'title' => NULL, 'type' => 'ul', 'attributes' => array('class' => implode(' ', $tree_classes))));
   }
 }
 

@@ -2,5 +2,5 @@
 
 name = Taxonomy Tree Select
 description = "Taxonomy Tree Select acts in node forms replacing the select boxes of taxonomy to simple and intuitive expansable trees."
-core = 6.x
+core = 7.x
 dependencies[] = taxonomy
