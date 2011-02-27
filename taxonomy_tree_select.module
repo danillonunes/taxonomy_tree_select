@@ -3,7 +3,7 @@
 /**
  * Implements hook_field_widget_info().
  */
-function taxonomy_field_widget_info() {
+function taxonomy_tree_select_field_widget_info() {
   return array(
     'taxonomy_tree_select' => array(
       'label' => t('Tree Select'),
