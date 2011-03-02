@@ -106,62 +106,6 @@ function theme_taxonomy_tree_select_nested_lists($variables) {
 }
 
 /**
- * Convert an select box element to a series of radio/checkboxes elements.
- *
- * @param $element
- *   A array with the form api element of type "select"
- *
- * @return
- *   Array with the form api element converted to type "radios" or "checkboxes"
- */
-function _taxonomy_tree_select_individualize_selectbox($element) {
-  if ($element['#type'] == 'select') {
-    if ($element['#multiple']) {
-      $element['#type'] = 'checkboxes';
-    }
-    else {
-      $element['#type'] = 'radios';
-
-      // Altough #default_value can always be an array even with non-multiple
-      // select fields, it needs to be an string with radios fields
-      if ($element['#default_value']) {
-        $element['#default_value'] = array_shift($element['#default_value']);
-      }
-      else {
-        $element['#default_value'] = '';
-      }
-    }
-  }
-
-  foreach ($element['#options'] as $key => &$option) {
-    $term = taxonomy_term_load($key);
-
-    // Rewrite the options to be used with checkboxes/radios fapi types
-    if (is_object($term)) {
-      $options[$term->tid] = $term->name;
-    }
-
-    // "None" option from non required vocabularies
-    elseif (!$element['#multiple'] && !$key) {
-      $options[0] = $option;
-    }
-
-    // Remove default options
-    unset($element['#options'][$key]);
-  }
-
-  $element['#options'] = $options;
-
-  // Remove select-only attributes
-  unset(
-    $element['#multiple'],
-    $element['#size']
-  );
-
-  return $element;
-}
-
-/**
  * Add external files.
  *
  * This is done in a after build function to make sure this files will be
