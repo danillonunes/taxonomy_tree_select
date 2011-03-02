@@ -134,14 +134,11 @@ function _taxonomy_tree_select_individualize_selectbox($element) {
   }
 
   foreach ($element['#options'] as $key => &$option) {
+    $term = taxonomy_term_load($key);
 
     // Rewrite the options to be used with checkboxes/radios fapi types
-    if (is_object($option)) {
-      if (is_array($option->option)) {
-        list($tid) = array_keys($option->option);
-        $term_name  = $option->option[$tid];
-      }
-      $options[$tid] = $term_name;
+    if (is_object($term)) {
+      $options[$term->tid] = $term->name;
     }
 
     // "None" option from non required vocabularies
