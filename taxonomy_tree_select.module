@@ -77,7 +77,7 @@ function theme_taxonomy_tree_select_nested_lists($variables) {
   if (is_array($terms)) {
     foreach ($terms as $tid => &$term) {
       if (isset($tree_temp[$tid])) {
-        $term['children'] = theme_taxonomy_tree_select_nested_lists($element, $tree_temp[$tid], $tid, $tree_temp);
+        $term['children'] = theme('taxonomy_tree_select_nested_lists', $element, $tree_temp[$tid], $tid, $tree_temp);
 
         $term['class'] = 'expansable expanded';
       }
