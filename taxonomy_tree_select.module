@@ -16,6 +16,41 @@ function taxonomy_tree_select_field_widget_info() {
 }
 
 /**
+ * Implements hook_field_widget_form().
+ */
+function taxonomy_tree_select_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $multiple = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
+
+  $properties = array(
+    'filter_xss' => FALSE,
+    'strip_tags' => FALSE,
+    'empty_option' => FALSE,
+    'optgroups' => FALSE,
+  );
+
+  // Get a list of options.
+  $options = _options_get_options($field, $instance, $properties);
+
+  if ($multiple && count($options) > 1) {
+    $element['#type'] = 'checkboxes';
+  }
+  else {
+    $element['#type'] = 'radios';
+  }
+
+  foreach ($options as $key => &$option) {
+    $term = taxonomy_term_load($key);
+    if (is_object($term)) {
+      $options[$term->tid] = $term->name;
+    }
+  }
+
+  $element['#options'] = $options;
+
+  return $element;
+}
+
+/**
  * Implements hook_theme().
  */
 function taxonomy_tree_select_theme($existing, $type, $theme, $path) {
