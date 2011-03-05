@@ -37,9 +37,14 @@ function taxonomy_tree_select_field_widget_form(&$form, &$form_state, $field, $i
   }
 
   foreach ($options as $key => &$option) {
-    $term = taxonomy_term_load($key);
-    if (is_object($term)) {
-      $options[$term->tid] = $term->name;
+    if (is_numeric($key)) {
+      $term = taxonomy_term_load($key);
+      if (is_object($term)) {
+        $options[$term->tid] = $term->name;
+      }
+    }
+    elseif ($key == '_none') {
+      $options[$key] = t('None');
     }
   }
 
