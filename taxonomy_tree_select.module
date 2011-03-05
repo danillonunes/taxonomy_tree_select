@@ -21,12 +21,9 @@ function taxonomy_tree_select_field_widget_info() {
 function taxonomy_tree_select_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $multiple = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
 
-  $properties = array(
-    'filter_xss' => FALSE,
-    'strip_tags' => FALSE,
-    'empty_option' => FALSE,
-    'optgroups' => FALSE,
-  );
+  $required = $element['#required'];
+  $has_value = isset($items[0][$value_key]);
+  $properties = _options_properties('select', $multiple, $required, $has_value);
 
   // Get a list of options.
   $options = _options_get_options($field, $instance, $properties);
