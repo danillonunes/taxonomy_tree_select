@@ -22,6 +22,7 @@ function taxonomy_tree_select_field_widget_form(&$form, &$form_state, $field, $i
   $multiple = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
 
   $required = $element['#required'];
+  $value_key = key($field['columns']);
   $has_value = isset($items[0][$value_key]);
   $properties = _options_properties('select', $multiple, $required, $has_value);
 
