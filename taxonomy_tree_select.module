@@ -26,24 +26,24 @@ function taxonomy_tree_select_field_widget_form(&$form, &$form_state, $field, $i
   $has_value = isset($items[0][$value_key]);
   $properties = _options_properties('select', $multiple, $required, $has_value);
 
-  // Get a list of options.
-  $options = _options_get_options($field, $instance, $properties);
+  // Get a list of options generated from Options module.
+  $options_options = _options_get_options($field, $instance, $properties);
 
-  if ($multiple && count($options) > 1) {
+  if ($multiple && count($options_options) > 1) {
     $element['#type'] = 'checkboxes';
   }
   else {
     $element['#type'] = 'radios';
   }
 
-  foreach ($options as $key => &$option) {
+  foreach ($options_options as $key => &$option) {
     if (is_numeric($key)) {
       $term = taxonomy_term_load($key);
       if (is_object($term)) {
         $options[$term->tid] = $term->name;
       }
     }
-    elseif ($key == '_none') {
+    elseif ($key == '_none' && !$multiple) {
       $options[$key] = t('None');
     }
   }
