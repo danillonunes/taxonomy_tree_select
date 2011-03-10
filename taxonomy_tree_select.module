@@ -74,7 +74,7 @@ function taxonomy_tree_select_form_alter(&$form, &$form_state, $form_id) {
         $form['taxonomy'][$key]['#theme'] = 'taxonomy_tree_select_nested_lists';
 
         // Add external files
-        $form['#after_build'][] = '_taxonomy_tree_select_add_external_files';
+        $form['taxonomy'][$key]['#after_build'][] = '_taxonomy_tree_select_add_external_files';
       }
     }
   }
@@ -229,9 +229,9 @@ function _taxonomy_tree_select_individualize_selectbox($element) {
  * This is done in a after build function to make sure this files will be
  * loaded even when the hook_form_alter doesn't run (i.e. in a form error).
  */
-function _taxonomy_tree_select_add_external_files($form, $form_state) {
+function _taxonomy_tree_select_add_external_files($form_element, $form_state) {
   drupal_add_css(drupal_get_path('module', 'taxonomy_tree_select') . '/taxonomy_tree_select.css');
   drupal_add_js(drupal_get_path('module', 'taxonomy_tree_select') . '/taxonomy_tree_select.js');
 
-  return $form;
+  return $form_element;
 }
