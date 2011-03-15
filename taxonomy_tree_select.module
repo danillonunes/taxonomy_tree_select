@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Implementation of hook_init().
+ */
+function taxonomy_tree_select_init() {
+  if (module_exists('i18ntaxonomy')) {
+    module_load_include('inc', 'taxonomy_tree_select', 'includes/taxonomy_tree_select.i18ntaxonomy.inc');
+  }
+}
 
 /**
  * Implementation of hook_theme().
@@ -113,8 +121,9 @@ function theme_taxonomy_tree_select_nested_lists($element, $tree = array(), $par
   foreach ($tree as $term) {
     if ($term->parents[0] == $parent) {
 
-      // @TODO: Make some way to translate the term name / integration with Internationalization UI module
       $element[$term->tid]['#title'] = $term->name;
+
+      drupal_alter('taxonomy_tree_select_term_element', $element[$term->tid], $term);
 
       $terms[$term->tid] = array(
         'data' => drupal_render($element[$term->tid])
