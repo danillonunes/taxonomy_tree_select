@@ -1,4 +1,8 @@
 
+Taxonomy Tree Select 6.x-1.2-dev
+----------------------
+
+
 Taxonomy Tree Select 6.x-1.1
 ----------------------
 - Feature request #953182 by Andreyy: Multilingual support with integration with Internationalization.
