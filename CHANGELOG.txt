@@ -1,5 +1,5 @@
 
-Taxonomy Tree Select 6.x-1.1-dev
+Taxonomy Tree Select 6.x-1.1
 ----------------------
 - Feature request #953182 by Andreyy: Multilingual support with integration with Internationalization.
 - Fixed #1084828 bug report by mrfelton: Doesn't work in conjunction with a node form that is included in the user registration form with content profile.
