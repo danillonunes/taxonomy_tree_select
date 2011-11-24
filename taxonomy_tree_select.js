@@ -47,7 +47,8 @@ Drupal.behaviors.taxonomyTreeSelect = function(context) {
         }
       })
       // Collapse list
-      .bind('collapse', function() {
+      .bind('collapse', function(e) {
+        e.stopPropagation();
         var $item = $(this),
             $child = $item.children('div.item-list').children('ul');
         $child.slideUp('fast');
@@ -56,7 +57,8 @@ Drupal.behaviors.taxonomyTreeSelect = function(context) {
           .addClass('collapsed');
       })
       // Expand list
-      .bind('expand', function() {
+      .bind('expand', function(e) {
+        e.stopPropagation();
         var $item = $(this),
             $child = $item.children('div.item-list').children('ul');
         $child.slideDown('fast');
@@ -65,7 +67,8 @@ Drupal.behaviors.taxonomyTreeSelect = function(context) {
           .addClass('expanded');
       })
       // Expand or collapse
-      .bind('toggle', function() {
+      .bind('toggle', function(e) {
+        e.stopPropagation();
         var $item = $(this),
             $child = $item.children('div.item-list').children('ul');
         if ($child.is(':visible')) {

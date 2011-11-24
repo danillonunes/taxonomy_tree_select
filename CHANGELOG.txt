@@ -1,6 +1,7 @@
 
 Taxonomy Tree Select 6.x-1.2-dev
 ----------------------
+- Fixed #1114510 by zerolab, onedotover: Nested taxonomy lists collapse unintentionally.
 
 
 Taxonomy Tree Select 6.x-1.1
